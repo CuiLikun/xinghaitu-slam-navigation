@@ -35,8 +35,6 @@ FAST-LIO ──► /Odometry、/cloud_registered
 | 交互可视化 | `goalpoint_rviz_plugin`、`teleop_rviz_plugin`、`graph_decoder` | RViz 目标点、手动接管与图保存/读取 |
 | 底盘与仿真 | `smartcar_control`、`smartcar_description`、`serui` | 四轮底盘控制、URDF/Xacro、Gazebo 仿真和串口/界面相关功能 |
 
-完整的源仓库与提交记录见 [docs/SOURCES.md](docs/SOURCES.md)。
-
 ## 目录结构
 
 ```text
@@ -50,7 +48,6 @@ FAST-LIO ──► /Odometry、/cloud_registered
 │   ├── smartcar_control/         # 四轮底盘控制
 │   ├── smartcar_description/     # 机器人模型与仿真
 │   └── ...
-├── docs/SOURCES.md               # 合并来源与固定版本
 └── README.md
 ```
 
@@ -152,4 +149,4 @@ export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/xinghaitu-slam-navigation/src/aws-
 
 ## 许可证与致谢
 
-本仓库是已有项目的整合工作空间。第三方依赖及各 ROS 包的原始许可、署名和使用条件仍以其源码与上游仓库为准。合并来源和对应固定提交见 [docs/SOURCES.md](docs/SOURCES.md)。
+本仓库是面向星海图机器人的 ROS1 自主建图与导航工作空间。第三方依赖及各 ROS 包的许可、署名和使用条件仍以其随附源码为准。
