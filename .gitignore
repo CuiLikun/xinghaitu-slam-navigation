@@ -1,0 +1,20 @@
+# catkin build products
+/build/
+/devel/
+/install/
+/logs/
+/log/
+/.catkin_workspace
+/.catkin_tools/
+
+# editor and operating-system files
+.vscode/
+.idea/
+*~
+.DS_Store
+
+# ROS data captures and generated maps (often large; store externally)
+*.bag
+*.db3
+*.pcd
+*.ply
