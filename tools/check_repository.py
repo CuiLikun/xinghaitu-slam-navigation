@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,7 +16,11 @@ for manifest in ROOT.rglob('package.xml'):
     tree = ET.parse(manifest).getroot()
     name = tree.findtext('name')
     assert name not in packages, 'Duplicate ROS package: ' + name
-    assert (manifest.parent / 'CMakeLists.txt').is_file(), str(manifest)
+    cmake = manifest.parent / 'CMakeLists.txt'
+    assert cmake.is_file(), str(manifest)
+    assert not (manifest.parent / 'manifest.xml').exists(), 'Legacy rosbuild manifest shadows package.xml'
+    tracked = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '--error-unmatch', str(cmake.relative_to(ROOT))], capture_output=True)
+    assert tracked.returncode == 0, 'Build file is not tracked: ' + str(cmake)
     packages[name] = manifest.parent
 assert len(packages) == 13, sorted(packages)
 assert not (ROOT / 'src/CMakeLists.txt').exists(), 'Do not nest a catkin workspace in this repository'
@@ -34,7 +39,7 @@ def find_path(value):
         assert result.exists(), str(result)
         return result
 
-for name in ['xinghaitu_bringup', 'local_planner', 'far_planner', 'terrain_analysis', 'graph_decoder']:
+for name in ['xinghaitu_bringup', 'local_planner', 'far_planner', 'terrain_analysis', 'graph_decoder', 'boundary_handler']:
     for launch in (packages[name] / 'launch').glob('*.launch'):
         tree = ET.parse(launch).getroot()
         args = [a.attrib['name'] for a in tree.findall('arg')]
@@ -85,6 +90,8 @@ for doc in [ROOT / 'README.md', *ROOT.glob('docs/*.md')]:
         if '://' in target or target.startswith('#'):
             continue
         assert (doc.parent / target.split('#')[0]).exists(), (doc, target)
+for name in ['hero.svg', 'architecture.svg']:
+    assert (ROOT / 'docs/assets' / name).is_file()
 for svg in ROOT.glob('docs/assets/*.svg'):
     ET.parse(svg)
 print('PASS: 13 packages, launch contracts, Python syntax, path dataset, topic isolation and documentation links')

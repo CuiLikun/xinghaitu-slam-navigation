@@ -1,8 +1,2 @@
-
-# ignore dir or file
-CMakeLists.txt
-livox_ros_driver/Livox-SDK
-#whitelist
-
-
-
+# Locally built external SDK
+livox_ros_driver/Livox-SDK/
