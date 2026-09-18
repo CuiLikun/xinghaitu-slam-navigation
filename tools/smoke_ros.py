@@ -22,7 +22,7 @@ try:
         try:
             if expected <= set(rosnode.get_node_names()):
                 break
-        except (OSError, rosgraph.MasterError):
+        except (OSError, rosgraph.MasterError, rosnode.ROSNodeIOException):
             pass
         time.sleep(1)
     else:
@@ -64,7 +64,7 @@ with tempfile.TemporaryDirectory(prefix='xinghaitu-mapping-') as output:
             try:
                 if '/laserMapping' in rosnode.get_node_names() and (Path(output) / 'Log/mat_out.txt').exists():
                     break
-            except (OSError, rosgraph.MasterError):
+            except (OSError, rosgraph.MasterError, rosnode.ROSNodeIOException):
                 pass
             time.sleep(1)
         else:

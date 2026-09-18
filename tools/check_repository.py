@@ -21,7 +21,7 @@ for manifest in ROOT.rglob('package.xml'):
     assert cmake.is_file(), str(manifest)
     assert not (manifest.parent / 'manifest.xml').exists(), 'Legacy rosbuild manifest shadows package.xml'
     tracked = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '--error-unmatch', str(cmake.relative_to(ROOT))], capture_output=True)
-    assert tracked.returncode == 0, 'Build file is not tracked: ' + str(cmake)
+    assert tracked.returncode == 0, 'Build file is not tracked: ' + str(cmake) + '\n' + tracked.stderr.decode(errors='replace')
     packages[name] = manifest.parent
 assert len(packages) == 13, sorted(packages)
 assert not (ROOT / 'src/CMakeLists.txt').exists(), 'Do not nest a catkin workspace in this repository'
