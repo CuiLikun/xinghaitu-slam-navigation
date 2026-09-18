@@ -56,7 +56,7 @@ class Four_Drive_Car():
         self.acc_theta = rospy.get_param('~acc_theta', rospy.get_param('/acc_theta', 0.1))
         self.dist_axis = rospy.get_param('~dist_axis', rospy.get_param('/dist_axis', 0.52))
         self.dist_wheel = rospy.get_param('~dist_wheels', rospy.get_param('/dist_wheel', 0.35))
-        self.wheel_radius = rospy.get_param('/wheel_radius', 0.085)
+        self.wheel_radius = rospy.get_param('~diameter_wheel', 2 * rospy.get_param('/wheel_radius', 0.085)) * 0.5
 
         self.odom_publisher = rospy.Publisher('/odom', Odometry, queue_size=1)
         self.last_received_pose = Pose()

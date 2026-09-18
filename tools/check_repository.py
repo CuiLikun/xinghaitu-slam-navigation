@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+from types import SimpleNamespace
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +31,25 @@ for launch in ROOT.rglob('*.launch'):
 for script in ROOT.glob('packages/**/scripts/*.py'):
     ast.parse(script.read_text(encoding='utf-8'), filename=str(script))
     assert script.read_bytes().startswith(b'#!/usr/bin/env python3'), str(script)
+
+# Evaluate only the parameter assignments, without importing hardware or starting ROS.
+for filename in ['4_drive_control.py', '4_drive_control_sim.py']:
+    script = packages['smartcar_control'] / 'scripts' / filename
+    tree = ast.parse(script.read_text(encoding='utf-8'))
+    for settings, expected in [
+        ({'~acc_vel': 0.04, '/acc_vel': 9.0, '~dist_axis': 0.7,
+          '~dist_wheels': 0.5, '~diameter_wheel': 0.2},
+         {'acc_vel': 0.04, 'dist_axis': 0.7, 'dist_wheel': 0.5, 'wheel_radius': 0.1}),
+        ({'/acc_vel': 0.07, '/dist_axis': 0.8, '/dist_wheel': 0.55,
+          '/diameter_wheel': 0.24, '/wheel_radius': 0.12},
+         {'acc_vel': 0.07, 'dist_axis': 0.8, 'dist_wheel': 0.55, 'wheel_radius': 0.12}),
+    ]:
+        for key, expected_value in expected.items():
+            assignment = next(n for n in ast.walk(tree) if isinstance(n, ast.Assign)
+                and isinstance(n.targets[0], ast.Attribute) and n.targets[0].attr == key)
+            actual = eval(compile(ast.Expression(assignment.value), str(script), 'eval'),
+                          {'rospy': SimpleNamespace(get_param=lambda name, default: settings.get(name, default))})
+            assert abs(actual - expected_value) < 1e-9, (filename, key, actual)
 
 def find_path(value):
     match = re.fullmatch(r'\$\(find ([^)]+)\)(/.*)', value)

@@ -10,7 +10,7 @@
 </g>
 <g fill="none" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow)">
 <path d="M181 178H231"/><path d="M416 166H495"/><path d="M665 162H710"/>
-<path d="M800 201V242"/><path d="M416 190H455V275H710"/><path d="M890 277H1060"/>
+<path d="M800 201V242"/><path d="M580 201V228H738V242"/><path d="M416 190H455V275H710"/><path d="M890 277H1060"/>
 </g>
 <g font-family="Segoe UI,Arial,sans-serif" text-anchor="middle">
 <g fill="white" stroke="#cbd5e1"><rect x="34" y="139" width="146" height="79" rx="12"/>

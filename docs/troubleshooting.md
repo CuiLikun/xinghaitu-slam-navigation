@@ -26,7 +26,7 @@
 python3 tools/check_repository.py
 ```
 
-检查 13 个 ROS 包入口、XML、launch 参数契约、Python 语法、三份参考路径的哈希与行数、碰撞表索引、局部路径隔离和文档链接。
+检查 13 个 ROS 包入口、XML、launch 参数契约、Python 语法、底盘私有参数与旧全局参数的兼容性、三份参考路径的哈希与行数、碰撞表索引、局部路径隔离和文档链接。
 
 完成 ROS 构建后，在未启动其他导航实例的独立测试环境中运行：
 
@@ -35,7 +35,7 @@ source ~/catkin_ws/devel/setup.bash
 python3 tools/smoke_ros.py
 ```
 
-脚本临时启动无硬件导航，检查节点存活、重映射、默认无 `/cmd_vel` 输出及资源查找，然后结束自己启动的进程。请勿在正在控制机器人的 ROS master 上运行。
+脚本临时启动无硬件导航，检查节点存活、重映射、默认无 `/cmd_vel` 输出及资源查找，再验证 FAST-LIO 在外部目录创建运行输出，最后结束自己启动的进程。请勿在正在控制机器人的 ROS master 上运行。
 
 GitHub Actions 在 Noetic/Focal 容器中构建所有 ROS 包（Livox 仅消息模式），执行 `catkin_make install`，分别验证 devel 与 install 空间。以 [Actions 实际运行结果](https://github.com/CuiLikun/xinghaitu-slam-navigation/actions/workflows/ros1.yml) 为准。
 

@@ -8,7 +8,7 @@
 <rect width="1280" height="440" rx="24" fill="url(#bg)"/>
 <rect x="615" y="0" width="665" height="440" fill="url(#grid)" opacity=".7"/>
 <g font-family="Segoe UI,Arial,sans-serif">
-<rect x="56" y="51" width="221" height="30" rx="15" fill="#163743"/><circle cx="74" cy="66" r="4" fill="#5eead4"/>
+<rect x="56" y="51" width="282" height="30" rx="15" fill="#163743"/><circle cx="74" cy="66" r="4" fill="#5eead4"/>
 <text x="89" y="71" fill="#99f6e4" font-size="12" letter-spacing="2">ROS1 / MODULAR AUTONOMY</text>
 <text x="54" y="163" font-size="65" font-weight="700" letter-spacing="3" fill="#f1f5f9">XINGHAITU</text>
 <text x="58" y="213" font-size="28" fill="#cbd5e1">Map the unknown.</text>

@@ -51,3 +51,32 @@ finally:
     except subprocess.TimeoutExpired:
         os.killpg(process.pid, signal.SIGKILL)
         process.wait()
+
+# Mapping must run from the install space and create output outside its source tree.
+import tempfile
+with tempfile.TemporaryDirectory(prefix='xinghaitu-mapping-') as output:
+    mapping = subprocess.Popen(['roslaunch', 'xinghaitu_bringup', 'mapping.launch',
+                                'rviz:=false', 'output_directory:=' + output], start_new_session=True)
+    try:
+        deadline = time.monotonic() + 45
+        while time.monotonic() < deadline:
+            assert mapping.poll() is None, 'Mapping exited before sensor input'
+            try:
+                if '/laserMapping' in rosnode.get_node_names() and (Path(output) / 'Log/mat_out.txt').exists():
+                    break
+            except (OSError, rosgraph.MasterError):
+                pass
+            time.sleep(1)
+        else:
+            raise AssertionError('Mapping did not initialize its output directory')
+        time.sleep(2)
+        assert rosnode.rosnode_ping('/laserMapping', max_count=1)
+        assert (Path(output) / 'PCD').is_dir()
+        print('PASS: FAST-LIO initializes and writes logs outside the source tree')
+    finally:
+        os.killpg(mapping.pid, signal.SIGINT)
+        try:
+            mapping.wait(timeout=15)
+        except subprocess.TimeoutExpired:
+            os.killpg(mapping.pid, signal.SIGKILL)
+            mapping.wait()

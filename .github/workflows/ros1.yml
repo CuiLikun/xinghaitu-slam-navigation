@@ -11,7 +11,9 @@ concurrency:
 jobs:
   noetic:
     runs-on: ubuntu-24.04
-    container: ros:noetic-ros-base-focal
+    container: osrf/ros:noetic-desktop-full
+    env:
+      DEBIAN_FRONTEND: noninteractive
     timeout-minutes: 40
     defaults:
       run:

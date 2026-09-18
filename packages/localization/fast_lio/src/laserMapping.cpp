@@ -837,6 +837,7 @@ int main(int argc, char** argv)
         ROS_FATAL_STREAM("Cannot create FAST-LIO output directories: " << error.what());
         return 1;
     }
+    p_imu->imu_log_path = root_dir + "/Log/imu.txt";
     /*** debug record ***/
     FILE *fp;
     string pos_log_dir = root_dir + "/Log/pos_log.txt";
