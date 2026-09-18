@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-labelledby="title desc">
+<title id="title">ROS1 data flow</title><desc id="desc">Sensor input flows through FAST-LIO, terrain analysis, global and local planning. An optional velocity adapter connects the robot. The map trajectory and local path are separate.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#0f766e" stroke-width="1.5"/></marker></defs>
+<rect width="1280" height="420" rx="20" fill="#f1f5f9"/>
+<g font-family="Segoe UI,Arial,sans-serif"><text x="36" y="39" font-size="13" font-weight="700" letter-spacing="2" fill="#475569">ONE DATA FLOW. INDEPENDENT ROS PACKAGES.</text>
+<rect x="208" y="67" width="237" height="267" rx="16" fill="#dbeafe" opacity=".7"/>
+<rect x="471" y="67" width="565" height="267" rx="16" fill="#ccfbf1" opacity=".55"/>
+<text x="229" y="94" font-size="12" letter-spacing="2" fill="#1d4ed8">LOCALIZATION</text>
+<text x="493" y="94" font-size="12" letter-spacing="2" fill="#0f766e">NAVIGATION</text>
+</g>
+<g fill="none" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow)">
+<path d="M181 178H231"/><path d="M416 166H495"/><path d="M665 162H710"/>
+<path d="M800 201V242"/><path d="M416 190H455V275H710"/><path d="M890 277H1060"/>
+</g>
+<g font-family="Segoe UI,Arial,sans-serif" text-anchor="middle">
+<g fill="white" stroke="#cbd5e1"><rect x="34" y="139" width="146" height="79" rx="12"/>
+<rect x="232" y="130" width="184" height="90" rx="12"/>
+<rect x="496" y="123" width="169" height="78" rx="12"/>
+<rect x="710" y="123" width="180" height="78" rx="12"/>
+<rect x="710" y="243" width="180" height="68" rx="12"/>
+<rect x="1060" y="239" width="183" height="78" rx="12" stroke-dasharray="5 4"/></g>
+<g fill="#0f172a" font-size="18" font-weight="600"><text x="107" y="169">LiDAR + IMU</text><text x="324" y="166">FAST-LIO</text><text x="580" y="154">Terrain analysis</text><text x="800" y="154">FAR Planner</text><text x="800" y="271">Local planner</text><text x="1151" y="269">Robot adapter</text></g>
+<g fill="#64748b" font-size="12"><text x="107" y="193">External sensor driver</text><text x="324" y="191">State estimation + mapping</text><text x="580" y="179">Traversability</text><text x="800" y="179">Global waypoints</text><text x="800" y="293">Path selection + tracking</text><text x="1151" y="293">Optional Twist conversion</text></g>
+<g fill="#0f766e" font-size="11"><text x="963" y="265">/cmd_vel_stamped</text><text x="957" y="297">CONTROL OUTPUT</text><text x="582" y="263">Odometry + world cloud</text><text x="328" y="252">/Odometry</text><text x="328" y="274">/cloud_registered</text><text x="328" y="306">/path = SLAM trajectory</text></g>
+</g>
+<path d="M36 360H1244" stroke="#cbd5e1"/>
+<text x="36" y="392" font-family="Segoe UI,Arial,sans-serif" font-size="13" fill="#475569">CONTROL PATH: /local_path</text>
+<text x="532" y="392" font-family="Segoe UI,Arial,sans-serif" font-size="13" fill="#475569">FRAMES: map → body → vehicle</text>
+<text x="998" y="392" font-family="Segoe UI,Arial,sans-serif" font-size="12" fill="#64748b">Hardware validation pending</text></svg>

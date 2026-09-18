@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.0.2)
+project(smartcar_control)
+find_package(catkin REQUIRED COMPONENTS message_generation geometry_msgs rospy sensor_msgs std_msgs)
+add_message_files(FILES State.msg DriversInput.msg VelInput.msg)
+add_service_files(FILES SetFloat.srv SetInt.srv SetString.srv SetPoint.srv)
+generate_messages(DEPENDENCIES std_msgs)
+catkin_package(CATKIN_DEPENDS message_runtime geometry_msgs rospy sensor_msgs std_msgs)
+catkin_install_python(PROGRAMS scripts/4_drive_control.py scripts/4_drive_control_sim.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

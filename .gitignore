@@ -1,20 +1,21 @@
-# catkin build products
-/build/
-/devel/
-/install/
-/logs/
-/log/
-/.catkin_workspace
-/.catkin_tools/
-
-# editor and operating-system files
+# Build in a separate catkin workspace.
+build/
+devel/
+install/
+logs/
+.catkin_tools/
+.catkin_workspace
+__pycache__/
+*.py[cod]
 .vscode/
 .idea/
 *~
 .DS_Store
-
-# ROS data captures and generated maps (often large; store externally)
+# Recorded maps are data; the planner's reference path set is source data.
 *.bag
 *.db3
 *.pcd
 *.ply
+!packages/navigation/local_planner/paths/*.ply
+packages/localization/fast_lio/Log/*.txt
+packages/localization/fast_lio/Log/*.csv

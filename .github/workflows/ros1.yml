@@ -1,0 +1,50 @@
+name: ROS1 validation
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ros1-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  noetic:
+    runs-on: ubuntu-24.04
+    container: ros:noetic-ros-base-focal
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: catkin_ws/src/xinghaitu-slam-navigation
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-rosdep python3-yaml python3-dev
+          rosdep update --include-eol-distros
+          source /opt/ros/noetic/setup.bash
+          rosdep install --from-paths catkin_ws/src --ignore-src --rosdistro noetic -y
+      - name: Validate repository
+        run: python3 catkin_ws/src/xinghaitu-slam-navigation/tools/check_repository.py
+      - name: Build all packages and install
+        working-directory: catkin_ws
+        run: |
+          source /opt/ros/noetic/setup.bash
+          catkin_make -j2 -l2 -DCMAKE_BUILD_TYPE=Release -DLIVOX_BUILD_DRIVER=OFF -DPYTHON_EXECUTABLE=/usr/bin/python3
+          catkin_make install -j2 -l2
+      - name: Smoke test devel space
+        working-directory: catkin_ws
+        run: |
+          source devel/setup.bash
+          roslaunch --nodes xinghaitu_bringup mapping.launch rviz:=false
+          python3 src/xinghaitu-slam-navigation/tools/smoke_ros.py
+      - name: Smoke test install space without source package discovery
+        working-directory: catkin_ws
+        run: |
+          source install/setup.bash
+          export ROS_PACKAGE_PATH="$PWD/install/share:/opt/ros/noetic/share"
+          roslaunch --nodes xinghaitu_bringup mapping.launch rviz:=false
+          python3 src/xinghaitu-slam-navigation/tools/smoke_ros.py

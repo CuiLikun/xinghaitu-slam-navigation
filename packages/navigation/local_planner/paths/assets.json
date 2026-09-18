@@ -1,0 +1,9 @@
+{
+  "source": "https://raw.githubusercontent.com/jizhang-cmu/ground_based_autonomy_basic/7ae94b72206430a399ae012f49715cf51fadb0e0/src/local_planner/paths/",
+  "revision": "7ae94b72206430a399ae012f49715cf51fadb0e0",
+  "sha256": {
+    "startPaths.ply": "5be6026aa9a2eb028d0a5829638304a95b2674265efacb35975363d740b0318a",
+    "paths.ply": "262ad9308e269454a50f45baa2e7030d86ed88c32db73c679cee4973cd70a991",
+    "pathList.ply": "115bd9b0f8e950779b327ea20438deac2cb7b0967cade33da40c4552a28aaf7b"
+  }
+}

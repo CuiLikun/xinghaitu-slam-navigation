@@ -1,0 +1,52 @@
+<launch>
+  <!-- Single-robot map/body/vehicle convention. Remapping topics does not transform coordinates. -->
+  <arg name="use_sim_time" default="false"/>
+  <arg name="rviz" default="true"/>
+  <arg name="odom_topic" default="/Odometry"/>
+  <arg name="cloud_topic" default="/cloud_registered"/>
+  <arg name="terrain_topic" default="/terrain_map"/>
+  <arg name="planner_config" default="$(find far_planner)/config/default.yaml"/>
+  <arg name="path_folder" default="$(find local_planner)/paths"/>
+  <arg name="max_speed" default="0.2"/>
+  <arg name="autonomy_speed" default="0.2"/>
+  <arg name="vehicle_length" default="0.85"/>
+  <arg name="vehicle_width" default="0.6"/>
+  <arg name="vehicle_height" default="0.75"/>
+  <arg name="sensor_offset_x" default="0.0"/>
+  <arg name="sensor_offset_y" default="0.0"/>
+  <arg name="enable_cmd_vel_converter" default="false"/>
+  <arg name="cmd_vel_topic" default="/cmd_vel"/>
+  <arg name="cmd_vel_stamped_topic" default="/cmd_vel_stamped"/>
+  <arg name="publish_body_to_vehicle_tf" default="true"/>
+  <param name="use_sim_time" value="$(arg use_sim_time)"/>
+  <include file="$(find terrain_analysis)/launch/terrain_analysis.launch">
+    <arg name="odom_topic" value="$(arg odom_topic)"/>
+    <arg name="cloud_topic" value="$(arg cloud_topic)"/>
+    <arg name="terrain_topic" value="$(arg terrain_topic)"/>
+    <arg name="vehicle_height" value="$(arg vehicle_height)"/>
+  </include>
+  <include file="$(find far_planner)/launch/far_planner.launch">
+    <arg name="odom_topic" value="$(arg odom_topic)"/>
+    <arg name="scan_cloud_topic" value="$(arg cloud_topic)"/>
+    <arg name="terrain_cloud_topic" value="$(arg terrain_topic)"/>
+    <arg name="terrain_local_topic" value="$(arg terrain_topic)"/>
+    <arg name="config_file" value="$(arg planner_config)"/>
+    <arg name="rviz" value="$(arg rviz)"/>
+  </include>
+  <include file="$(find local_planner)/launch/local_planner.launch">
+    <arg name="odom_topic" value="$(arg odom_topic)"/>
+    <arg name="cloud_topic" value="$(arg cloud_topic)"/>
+    <arg name="terrain_topic" value="$(arg terrain_topic)"/>
+    <arg name="path_folder" value="$(arg path_folder)"/>
+    <arg name="maxSpeed" value="$(arg max_speed)"/>
+    <arg name="autonomySpeed" value="$(arg autonomy_speed)"/>
+    <arg name="vehicle_length" value="$(arg vehicle_length)"/>
+    <arg name="vehicle_width" value="$(arg vehicle_width)"/>
+    <arg name="sensorOffsetX" value="$(arg sensor_offset_x)"/>
+    <arg name="sensorOffsetY" value="$(arg sensor_offset_y)"/>
+    <arg name="enable_cmd_vel_converter" value="$(arg enable_cmd_vel_converter)"/>
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+    <arg name="cmd_vel_stamped_topic" value="$(arg cmd_vel_stamped_topic)"/>
+    <arg name="publish_body_to_vehicle_tf" value="$(arg publish_body_to_vehicle_tf)"/>
+  </include>
+</launch>
