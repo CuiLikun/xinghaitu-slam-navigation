@@ -1,3 +1,5 @@
+> **Xinghaitu integration:** This package retains upstream documentation below. For this repository, use the [installation guide](../../../docs/installation.md) and `xinghaitu_bringup` entry points. Runtime files are written under the configurable `output_directory`.
+
 ## Related Works and Extended Application
 
 **SLAM:**
@@ -221,7 +223,7 @@ roslaunch fast_lio mapping_marsim.launch
 
 ### 3.5 PCD file save
 
-Set ``` pcd_save_enable ``` in launchfile to ``` 1 ```. All the scans (in global frame) will be accumulated and saved to the file ``` FAST_LIO/PCD/scans.pcd ``` after the FAST-LIO is terminated. ```pcl_viewer scans.pcd``` can visualize the point clouds.
+Enable `pcd_save/pcd_save_en` in the sensor YAML, or pass `pcd_save:=true` to `xinghaitu_bringup mapping.launch`. Accumulated scans are saved under `output_directory/PCD/`; the unified launch defaults to `~/.ros/xinghaitu/PCD/`. With `pcd_save/interval: -1`, scans are accumulated until shutdown and saved as `scans.pcd`. `pcl_viewer scans.pcd` can visualize the point cloud.
 
 *Tips for pcl_viewer:*
 - change what to visualize/color by pressing keyboard 1,2,3,4,5 when pcl_viewer is running. 
